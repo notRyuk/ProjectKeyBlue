@@ -6,7 +6,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 
 import { useState, useEffect, ChangeEvent } from 'react';
-import { Button, Divider, Input, SxProps, TextField, Theme, Typography } from '@mui/material';
+import { Alert, Button, Divider, Input, Snackbar, SxProps, TextField, Theme, Typography } from '@mui/material';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -52,7 +52,7 @@ interface UserInterface {
 }
 
 interface ResponseInterface {
-    status?: number;
+    status: number;
     col?: UserInterface | UserInterface[];
     comment?: string;
     error?: string;
@@ -216,21 +216,36 @@ export default function Login() {
         }
     }
 
+    const [alertOnLogin, setAlertOnLogin] = useState<boolean>(false)
+    const handleAlertOnLogin = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setAlertOnLogin(false);
+    };
+
+    const [userIsValid, setUserIsValid] = useState<boolean>(false)
+
     const fetchUserData = async () => {
-        console.log(urlData)
-        console.log(queryData)
-        return await axios.get(urlData, {
-            data: queryData
-        }).then(res => res.data) as ResponseInterface
+        var userInfo: ResponseInterface = await axios.get(urlData, {
+            params: queryData
+        }).then(res => res.data)
+        .catch(res => res.response.data)
+        console.log(userInfo)
+        setAlertOnLogin(true)
+        if(!userInfo || userInfo.status >= 400) {
+            setUsername("")
+            setPassword("")
+            setIdIsValid(false)
+            setIsPassValid(false)
+            setUserIsValid(false)
+        }
+        else {
+            setUserIsValid(true)
+        }
     }
 
-    // const fetchData = () => {
-    //     useEffect(() => {
-    //         fetchUserData().then(res => {
-    //             console.log(res)
-    //         })
-    //     }, [])
-    // }
+    
 
     return (
         <>
@@ -240,8 +255,11 @@ export default function Login() {
             >
                 <Box
                     sx={{
+<<<<<<< HEAD
                         // width: "50%",
                         // height: "60%",
+=======
+>>>>>>> 9e1f4aca6a5d4c2cd3347c7ea0ce5f2d57a1b217
                         backgroundColor: '#fafcff',
                         display: "flex",
                         justifyContent: "top",
@@ -296,9 +314,15 @@ export default function Login() {
                                 <Checkbox {...label} size="small" checked={rememberPassword} onClick={handleRememberPassword} />
                                 <p>Remember Password</p>
                             </div>
+                            <Snackbar open={alertOnLogin} autoHideDuration={6000} onClose={handleAlertOnLogin} id='alert'>
+                                <Alert onClose={handleAlertOnLogin} severity={userIsValid?"success":"error"} sx={{ width: '100%' }}>
+                                    {userIsValid?"Successfully Logged In":"Username or password is incorrect"}
+                                </Alert>
+                            </Snackbar>
                             <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
-                            <Button variant="contained" fullWidth onClick={fetchUserData}>SignIn</Button>
+                            <Button variant="contained" fullWidth onClick={fetchUserData}>Sign In</Button>
                         </TabPanel>
+<<<<<<< HEAD
                         <TabPanel value={value} index={1} className="SignupTab">
                             <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupUsername" className="SignupTabElement">
                                 <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -379,6 +403,12 @@ export default function Login() {
                             </div>
                             <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
                             <Button variant="contained" fullWidth onClick={fetchUserData}>SignIn</Button>
+=======
+                        <TabPanel value={value} index={1} className="LoginTab">
+                            <Typography>
+                                There is nothing here yet!
+                            </Typography>
+>>>>>>> 9e1f4aca6a5d4c2cd3347c7ea0ce5f2d57a1b217
                         </TabPanel>
                     </Box>
                 </Box>
