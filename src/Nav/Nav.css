@@ -1,0 +1,21 @@
+.LogoIcon {
+    height: 5vmin;
+    position: relative;
+    border-radius: 50%;
+    transform: scale(0.8);
+}
+
+#LogoIconMobile {
+    height: 10vmin;
+}
+
+.LogoContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
