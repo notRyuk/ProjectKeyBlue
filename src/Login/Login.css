@@ -1,3 +1,8 @@
+.SignupTab, .SingupTabElement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .LoginTab {
     display: flex;
@@ -14,5 +19,26 @@
 }
 
 #ForgotPassword {
+    margin-bottom: 1rem;
+}
+
+#SignupEmail {
+    margin-bottom: 1rem;
+}
+
+#SignupPassword {
+    margin-bottom: 1rem;
+}
+
+#SignupUsername {
+    margin-bottom: 1rem;
+}
+
+.SignupName {
+    display: flex;
+    flex-direction: row;
+}
+
+#signup-firstname {
     margin-bottom: 1rem;
 }

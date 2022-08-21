@@ -15,9 +15,12 @@ import Tab from '@mui/material/Tab';
 import Badge from '@mui/material/Badge';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
+import EmailIcon from '@mui/icons-material/Email';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import PersonIcon from '@mui/icons-material/Person';
 
 import { useNavigate } from "react-router-dom";
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, Email } from '@mui/icons-material';
 import Checkbox from '@mui/material/Checkbox';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -95,6 +98,9 @@ export default function Login() {
     };
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const handleShowPassword = () => setShowPassword(!showPassword)
+
+    const [showSignupPassword, setShowSignupPassword] = useState<boolean>(false)
+    const handleShowSignupPassword = () => setShowSignupPassword(!showSignupPassword)
     
     const [rememberPassword, setRememberPassword] = useState<boolean>(false)
     const handleRememberPassword = () => setRememberPassword(!rememberPassword)
@@ -112,6 +118,29 @@ export default function Login() {
         setUsername(userData)
     }
 
+    const [usernameSignup, setUsernameSignup] = useState<string>("")
+    const [usernameSignupLabel, setUsernameSignupLabel] = useState<string>("Username")
+    const handleSetUsernameSignup = (event: ChangeEvent<HTMLInputElement>) => {
+        const userData = event.target.value.trim()
+        validateUserData(userData)
+        setUsernameSignup(userData)
+    }
+
+    const [email, setEmail] = useState<string>("")
+    const[emailLabel, setEmailLabel] = useState<string>("Email")
+    const handleSetEmail = (event: ChangeEvent<HTMLInputElement>) => {
+        const userData = event.target.value.trim()
+        validateUserData(userData)
+        setEmail(userData)
+    }
+
+    const [firstName, setFirstName] = useState<string>("")
+    const[firstNameLabel, setFirstNameLabel] = useState<string>("First Name")
+    const handleSetFirstName = (event: ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())
+
+    const [lastName, setLastName] = useState<string>("")
+    const[lastNameLabel, setLastNameLabel] = useState<string>("Last Name")
+    const handleSetLastName = (event: ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())
 
     const [password, setPassword] = useState<string>("")
     const [passwordLabel, setPasswordLabel] = useState<string>("Password")
@@ -126,6 +155,36 @@ export default function Login() {
             setIsPassValid(true)
         }
         setPassword(event.target.value.trim())
+    }
+
+    const [passwordSignup, setPasswordSignup] = useState<string>("")
+    const [passwordSignupLabel, setPasswordSignupLabel] = useState<string>("Password")
+    const [isPassSignupValid, setIsPassSignupValid] = useState<boolean>(true)
+    const handleSetPasswordSignup = (event: ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value.trim().length < 8) {
+            setPasswordSignupLabel("Password (Min: 8)")
+            setIsPassSignupValid(false)
+        }
+        else {
+            setPasswordSignupLabel("Password")
+            setIsPassSignupValid(true)
+        }
+        setPasswordSignup(event.target.value.trim())
+    }
+
+    const [retypePasswordSignup, setRetypePasswordSignup] = useState<string>("")
+    const [retypePasswordSignupLabel, setRetypePasswordSignupLabel] = useState<string>("Retype Password")
+    const [isRetypePassSignupValid, setIsRetypePassSignupValid] = useState<boolean>(true)
+    const handleSetRetypePasswordSignup = (event: ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value.trim().length < 8) {
+            setRetypePasswordSignupLabel("Password (Min: 8)")
+            setIsRetypePassSignupValid(false)
+        }
+        else {
+            setRetypePasswordSignupLabel("Password")
+            setIsRetypePassSignupValid(true)
+        }
+        setRetypePasswordSignup(event.target.value.trim())
     }
 
     const validateUserData = (data: string = "") => {
@@ -181,8 +240,8 @@ export default function Login() {
             >
                 <Box
                     sx={{
-                        width: "50%",
-                        height: "60%",
+                        // width: "50%",
+                        // height: "60%",
                         backgroundColor: '#fafcff',
                         display: "flex",
                         justifyContent: "top",
@@ -240,7 +299,86 @@ export default function Login() {
                             <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
                             <Button variant="contained" fullWidth onClick={fetchUserData}>SignIn</Button>
                         </TabPanel>
-                        <TabPanel value={value} index={1} className="LoginTab">
+                        <TabPanel value={value} index={1} className="SignupTab">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupUsername" className="SignupTabElement">
+                                <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                <TextField 
+                                    id="input-with-sx" 
+                                    label={usernameSignupLabel} 
+                                    variant="standard" 
+                                    placeholder='Username' 
+                                    error={!idIsValid}
+                                    onChange={handleSetUsernameSignup}
+                                    value={username}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                                <EmailIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                <TextField
+                                    id="input-with-sx"
+                                    label={emailLabel}
+                                    variant="standard"
+                                    placeholder='Email'
+                                    onChange={handleSetEmail}
+                                    value={email}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                                <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                <div className='SignupName'>
+                                    <TextField
+                                        id="input-with-sx signup-firstname"
+                                        label={firstNameLabel}
+                                        variant="standard"
+                                        placeholder='First Name'
+                                        onChange={handleSetFirstName}
+                                        value={firstName}
+                                    />
+                                    <TextField
+                                        id="input-with-sx signup-lastname"
+                                        label={lastNameLabel}
+                                        variant="standard"
+                                        placeholder='Last Name'
+                                        onChange={handleSetLastName}
+                                        value={lastName}
+                                    />
+                                </div>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupPassword" className="SignupTabElement">
+                                <LockIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                <TextField 
+                                    id="password-with-sx" 
+                                    label={passwordSignupLabel} 
+                                    variant="standard" 
+                                    placeholder='Password' 
+                                    type={showSignupPassword?"text":"password"}
+                                    value={passwordSignup}
+                                    onChange={handleSetPasswordSignup}
+                                    error={!isPassSignupValid}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="RetypeSignupPassword" className="SignupTabElement">
+                                <LockResetIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                <TextField
+                                    id="password-with-sx"
+                                    label={retypePasswordSignupLabel}
+                                    variant="standard"
+                                    placeholder='Retype Password'
+                                    type={showSignupPassword?"text":"password"}
+                                    onChange={handleSetRetypePasswordSignup}
+                                    error={!isRetypePassSignupValid}
+                                />
+                            </Box>
+                            <div id="ShowPasswordSignup">
+                                <Checkbox {...label} size="small" checked={showPasswordSignup} onClick={handleShowPasswordSignup} />
+                                <p>Show Password</p>
+                            </div>
+                            <div id="RememberPasswordSignup">
+                                <Checkbox {...label} size="small" checked={rememberPasswordSignup} onClick={handleRememberPasswordSignup} />
+                                <p>Remember Password</p>
+                            </div>
+                            <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
+                            <Button variant="contained" fullWidth onClick={fetchUserData}>SignIn</Button>
                         </TabPanel>
                     </Box>
                 </Box>
