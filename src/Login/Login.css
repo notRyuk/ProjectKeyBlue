@@ -1,0 +1,18 @@
+
+.LoginTab {
+    display: flex;
+    justify-content: center;
+}
+
+#LoginUsername {
+    margin-bottom: 1rem;
+}
+
+#RememberPassword, #ShowPassword {
+    display: flex;
+    flex-direction: row;
+}
+
+#ForgotPassword {
+    margin-bottom: 1rem;
+}
