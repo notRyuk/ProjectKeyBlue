@@ -49,7 +49,9 @@ interface UserInterface {
     };
     email: string;
     blogs?: MiniBlog[];
+    encryption: string;
 }
+
 
 interface ResponseInterface {
     status: number;
