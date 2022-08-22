@@ -7,10 +7,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import Avatar from '@mui/material/Avatar';
 
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
 import ListItemButton from "@mui/material/ListItemButton";
 
 import List from "@mui/material/List";
