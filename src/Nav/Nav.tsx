@@ -21,33 +21,55 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from '@mui/icons-material/Person';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Fab from "@mui/material/Fab";
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import ContactsIcon from '@mui/icons-material/Contacts';
+import { SvgIconTypeMap } from "@mui/material/SvgIcon";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 interface NavItem {
     value: string;
     link: string;
-    icon?: JSX.Element;
+    Icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
+        muiName: string;
+    };
 }
 
 
 const drawerWidth = 240
-const navItemList: NavItem[] = [
-    {value: "Home", link: "_blank"}, 
-    {value: "About", link: "_blank"}, 
-    {value: "Contact", link: "_blank"},
+var navItemList: NavItem[] = [
+    {value: "Home", link: "_blank", Icon: HomeIcon}, 
+    {value: "About", link: "_blank", Icon: InfoIcon}, 
+    {value: "Contact", link: "_blank", Icon: ContactsIcon},
 ]
 
 interface Props {
     window?: () => Window;
     navItems?: NavItem[];
+    isHome: boolean;
 }
 
-export default function NavBar({window, navItems}: Props) {
+export default function NavBar({window, navItems, isHome}: Props) {
     if(!navItems) {
         navItems = navItemList
+    }
+    if(isHome) {
+        navItemList = navItemList.filter(e => e.value !== "Home")
     }
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
+    };
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
     const drawer = (
         <Box id="NavMobileOpen" onClick={handleDrawerToggle} sx={{ textAlign: "center", htmlColor: mobileOpen?"white":"#1976d2" }}>
@@ -108,13 +130,56 @@ export default function NavBar({window, navItems}: Props) {
                             KeyBlue
                         </a>
                     </Typography>
-                    <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center"} }}>
-                        {navItems.map(({value, link}) => (
-                            <Button key={value} sx={{ color: "#fff" }} href={link}>{value}</Button>
-                        ))}
-                        <Avatar>
-                            <PersonIcon htmlColor="black" inheritViewBox={true}/>
-                        </Avatar>
+                    <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center"}, gap: "0.5rem" }}>
+                        {navItems.map(({value, link, Icon}) => {
+                            if(Icon) {
+                                return (
+                                    <Fab 
+                                        key={value} 
+                                        variant="extended" 
+                                        sx={{
+                                            display: "flex", 
+                                            alignItems: "center", 
+                                            color: "primary.dark",
+                                            transform: "scale(0.8)",
+                                        }} 
+                                        href={link}
+                                    >
+                                        <Icon />
+                                        {/* {value} */}
+                                    </Fab>
+                                )
+                            }
+                            return <Fab key={value} sx={{ color: "primary.dark", padding: "rem" }} href={link}>{value}</Fab>
+                        })}
+                        <Fab 
+                            variant="extended" 
+                            sx={{
+                                display: "flex", 
+                                alignItems: "center", 
+                                color: "primary.dark", 
+                                transform: "scale(0.9)"
+                            }}
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            <PersonIcon inheritViewBox={true}/>
+                        </Fab>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                        </Menu>
                     </Box>
                 </Toolbar>
             </AppBar>

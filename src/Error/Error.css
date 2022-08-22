@@ -195,49 +195,6 @@ main>div:last-child span:last-child {
     }
 }
 
-/* @-webkit-keyframes pulseColor {
-    0% {
-        color: black;
-    }
-
-    25% {
-        color: #43CB9D;
-    }
-
-    50% {
-        color: white;
-    }
-
-    75% {
-        color: #43CB9D;
-    }
-
-    100% {
-        color: white;
-    }
-}
-
-@keyframes pulseColor {
-    0% {
-        color: white;
-    }
-
-    25% {
-        color: #43CB9D;
-    }
-
-    50% {
-        color: white;
-    }
-
-    75% {
-        color: #43CB9D;
-    }
-
-    100% {
-        color: white;
-    }
-} */
 
 /* https://goo.gl/v323yz */
 @-webkit-keyframes translateLeft {

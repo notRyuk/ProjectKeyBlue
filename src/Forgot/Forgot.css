@@ -1,0 +1,22 @@
+.TabTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ForgotPasswordUsername {
+    margin-bottom: 1rem;
+    margin-right:    1rem;
+}
+
+#ForgotPasswordButton {
+    width: 55%;
+    margin-bottom: 1rem;
+}
+
+
+#ForgotPasswordCheckBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}

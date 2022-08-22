@@ -1,29 +1,23 @@
 import './Login.css';
 import axios from "axios";
+import tokenizer from '../tokenizer';
+
+import { useState, ChangeEvent } from 'react';
+import { Alert, Button, Snackbar, TextField, Typography } from '@mui/material';
 
 import Backdrop from '@mui/material/Backdrop';
-
-import Box from '@mui/material/Box';
-
-import { useState, useEffect, ChangeEvent } from 'react';
-import { Alert, Button, Divider, Input, Snackbar, SxProps, TextField, Theme, Typography } from '@mui/material';
-
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
-
-import Badge from '@mui/material/Badge';
-import CloseIcon from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
 import LockIcon from '@mui/icons-material/Lock';
-import EmailIcon from '@mui/icons-material/Email';
 import LockResetIcon from '@mui/icons-material/LockReset';
+import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { useNavigate } from "react-router-dom";
-import { AccountCircle, Email } from '@mui/icons-material';
+import { AccountCircle } from '@mui/icons-material';
 import Checkbox from '@mui/material/Checkbox';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+const label = { inputProps: { 'aria-label': 'Login password' } }
 
 const basePath = "https://technophilesapi.up.railway.app"
 
@@ -86,23 +80,27 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
+interface Props {
+    user: UserInterface;
+    setUser: React.Dispatch<React.SetStateAction<UserInterface>>;
+    tab: 0 | 1;
+    backDropState: boolean;
+    setBackDropState: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function Login() {
-    const [backDropState, setBackDropState] = useState<boolean>(true);
-    const closeBackDrop = () => setBackDropState(false)
-    const toggleBackDrop = () => setBackDropState(!backDropState)
 
-    const navigate = useNavigate()
-    const [value, setValue] = useState(0);
+export default function Login({user, setUser, tab, backDropState, setBackDropState}: Props) {
+    
+    const [value, setValue] = useState(tab);
 
-    const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChangeTab = (event: React.SyntheticEvent, newValue: 0 | 1) => {
         setValue(newValue);
     };
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const handleShowPassword = () => setShowPassword(!showPassword)
 
-    const [showSignupPassword, setShowSignupPassword] = useState<boolean>(false)
-    const handleShowSignupPassword = () => setShowSignupPassword(!showSignupPassword)
+    const [showSignUpPassword, setShowSignUpPassword] = useState<boolean>(false)
+    const handleShowSignUpPassword = () => setShowSignUpPassword(!showSignUpPassword)
     
     const [rememberPassword, setRememberPassword] = useState<boolean>(false)
     const handleRememberPassword = () => setRememberPassword(!rememberPassword)
@@ -120,30 +118,50 @@ export default function Login() {
         setUsername(userData)
     }
 
-    const [usernameSignupIsValid, setUsernameSignupIsValid] = useState<boolean>(true)
-    const handleUsernameSignupIsValid = () => setUsernameSignupIsValid(!usernameSignupIsValid)
+    const [usernameSignUpIsValid, setUsernameSignUpIsValid] = useState<boolean>(true)
+    const handleUsernameSignUpIsValid = () => setUsernameSignUpIsValid(!usernameSignUpIsValid)
 
-    const [usernameSignup, setUsernameSignup] = useState<string>("")
-    const [usernameSignupLabel, setUsernameSignupLabel] = useState<string>("Username")
-    const handleSetUsernameSignup = (event: ChangeEvent<HTMLInputElement>) => {
+    const [usernameSignUp, setUsernameSignUp] = useState<string>("")
+    const [usernameSignUpLabel, setUsernameSignUpLabel] = useState<string>("Username")
+    const handleSetUsernameSignUp = (event: ChangeEvent<HTMLInputElement>) => {
         const userData = event.target.value.trim()
         if(userData.length === 0 || !/^[a-zA-z][a-zA-Z0-9_-]+[a-zA-Z]$/.test(userData)) {
-            setUsernameSignupIsValid(false)
-            setUsernameSignupLabel("Invalid Username format")
+            setUsernameSignUpIsValid(false)
+            setUsernameSignUpLabel("Invalid Username format")
         }
         else {
-            setUsernameSignupIsValid(true)
-            setUsernameSignupLabel("Username")
+            setUsernameSignUpIsValid(true)
+            setUsernameSignUpLabel("Username")
         }
-        setUsernameSignup(userData)
+        setUsernameSignUp(userData)
     }
 
     const [email, setEmail] = useState<string>("")
     const[emailLabel, setEmailLabel] = useState<string>("Email")
     const handleSetEmail = (event: ChangeEvent<HTMLInputElement>) => {
         const userData = event.target.value.trim()
-        validateUserData(userData)
+        validateEmail(userData)
         setEmail(userData)
+    }
+    const [isEmailValid, setIsEmailValid] = useState<boolean>(true)
+    const validateEmail = (data: string) => {
+        if(data.length === 0) {
+            setIsEmailValid(false)
+            setUsernameLabel("Invalid Email Format")
+            return 
+        }
+        if(data.includes("@")) {
+            if(!/^[a-z0-9_\.-]+\@[a-z0-9\-]+\.[a-z]+/.test(data)) {
+                setIsEmailValid(false)
+                setUsernameLabel("Invalid Email Format")
+                return 
+            }
+            setIsEmailValid(true)
+            setUsernameLabel("Email")
+            return
+        }
+        setIsEmailValid(false)
+        setUsernameLabel("Invalid Email Format")
     }
 
     const [firstName, setFirstName] = useState<string>("")
@@ -154,11 +172,11 @@ export default function Login() {
     const[lastNameLabel, setLastNameLabel] = useState<string>("Last Name")
     const handleSetLastName = (event: ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())
 
-    const [showPasswordSignup, setShowPasswordSignup] = useState<boolean>(false)
-    const handleShowPasswordSignup = () => setShowPasswordSignup(!showPasswordSignup)
+    const [showPasswordSignUp, setShowPasswordSignUp] = useState<boolean>(false)
+    const handleShowPasswordSignUp = () => setShowPasswordSignUp(!showPasswordSignUp)
 
-    const [rememberPasswordSignup, setRememberPasswordSignup] = useState<boolean>(false)
-    const handleRememberPasswordSignup = () => setRememberPasswordSignup(!rememberPasswordSignup)
+    const [rememberPasswordSignUp, setRememberPasswordSignUp] = useState<boolean>(false)
+    const handleRememberPasswordSignUp = () => setRememberPasswordSignUp(!rememberPasswordSignUp)
 
     const [password, setPassword] = useState<string>("")
     const [passwordLabel, setPasswordLabel] = useState<string>("Password")
@@ -175,34 +193,35 @@ export default function Login() {
         setPassword(event.target.value.trim())
     }
 
-    const [passwordSignup, setPasswordSignup] = useState<string>("")
-    const [passwordSignupLabel, setPasswordSignupLabel] = useState<string>("Password")
-    const [isPassSignupValid, setIsPassSignupValid] = useState<boolean>(true)
-    const handleSetPasswordSignup = (event: ChangeEvent<HTMLInputElement>) => {
+    const [passwordSignUp, setPasswordSignUp] = useState<string>("")
+    const [passwordSignUpLabel, setPasswordSignUpLabel] = useState<string>("Password")
+    const [isPassSignUpValid, setIsPassSignUpValid] = useState<boolean>(true)
+    const handleSetPasswordSignUp = (event: ChangeEvent<HTMLInputElement>) => {
         if(event.target.value.trim().length < 8) {
-            setPasswordSignupLabel("Password (Min: 8)")
-            setIsPassSignupValid(false)
+            setPasswordSignUpLabel("Password (Min: 8)")
+            setIsPassSignUpValid(false)
         }
         else {
-            setPasswordSignupLabel("Password")
-            setIsPassSignupValid(true)
+            setPasswordSignUpLabel("Password")
+            setIsPassSignUpValid(true)
         }
-        setPasswordSignup(event.target.value.trim())
+        setPasswordSignUp(event.target.value.trim())
     }
 
-    const [retypePasswordSignup, setRetypePasswordSignup] = useState<string>("")
-    const [retypePasswordSignupLabel, setRetypePasswordSignupLabel] = useState<string>("Retype Password")
-    const [isRetypePassSignupValid, setIsRetypePassSignupValid] = useState<boolean>(true)
-    const handleSetRetypePasswordSignup = (event: ChangeEvent<HTMLInputElement>) => {
-        if(event.target.value.trim().length < 8) {
-            setRetypePasswordSignupLabel("Password (Min: 8)")
-            setIsRetypePassSignupValid(false)
+    const [retypePasswordSignUp, setRetypePasswordSignUp] = useState<string>("")
+    const [retypePasswordSignUpLabel, setRetypePasswordSignUpLabel] = useState<string>("Retype Password")
+    const [isRetypePassSignUpValid, setIsRetypePassSignUpValid] = useState<boolean>(true)
+    const handleSetRetypePasswordSignUp = (event: ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value.trim().length < 8 || retypePasswordSignUp !== passwordSignUp) {
+            setIsRetypePassSignUpValid(false)
+            setRetypePasswordSignUpLabel("Password (Min: 8)")
         }
         else {
-            setRetypePasswordSignupLabel("Password")
-            setIsRetypePassSignupValid(true)
+            setIsRetypePassSignUpValid(true)
+            setRetypePasswordSignUpLabel("Password")
         }
-        setRetypePasswordSignup(event.target.value.trim())
+        console.log(retypePasswordSignUp)
+        setRetypePasswordSignUp(event.target.value.trim())
     }
 
     const validateUserData = (data: string = "") => {
@@ -211,7 +230,7 @@ export default function Login() {
             return 
         }
         if(data.includes("@")) {
-            if(!/^[a-z][a-z0-9_\.-]+\@[a-z0-9\-]+\.[a-z]+/.test(data)) {
+            if(!/^[a-z0-9_\.-]+\@[a-z0-9\-]+\.[a-z]+/.test(data)) {
                 setIdIsValid(false)
                 setUsernameLabel("Invalid Email Format")
                 return 
@@ -236,9 +255,9 @@ export default function Login() {
 
     const [alertOnLogin, setAlertOnLogin] = useState<boolean>(false)
     const handleAlertOnLogin = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
-        }
+        // if (reason === 'clickaway') {
+        //   return;
+        // }
         setAlertOnLogin(false);
     };
 
@@ -249,7 +268,6 @@ export default function Login() {
             params: queryData
         }).then(res => res.data)
         .catch(res => res.response.data)
-        console.log(userInfo)
         setAlertOnLogin(true)
         if(!userInfo || userInfo.status >= 400) {
             setUsername("")
@@ -259,20 +277,56 @@ export default function Login() {
             setUserIsValid(false)
         }
         else {
-            setUserIsValid(true)
+            if(tokenizer.decrypt((userInfo.col! as UserInterface).encryption) !== password) {
+                setIsPassValid(false)
+                setUserIsValid(false)
+            }
+            else {
+                setIsPassValid(true)
+                setUserIsValid(true)
+                setUser((userInfo.col! as UserInterface))
+            }
         }
     }
 
     const createNewUser = async () => {
-        var userInfo: ResponseInterface = await axios.post(basePath + "/user/create", {
+        var userInfo: ResponseInterface | UserInterface = await axios.post(basePath + "/user/create", {
             data: {
-                userName: usernameSignup,
+                userName: usernameSignUp,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                blogs: []
+                password: passwordSignUp
             }
         })
+        .then(res => res.data)
+        if(!userInfo) {
+            setEmailLabel("Something went wrong!")
+            setUsernameSignUpLabel("Something went wrong")
+        }
+        else if((userInfo as ResponseInterface).status  >= 400) {
+            if((userInfo as ResponseInterface).error!.includes("email")) {
+                setIsEmailValid(false)
+                setEmailLabel((userInfo as ResponseInterface).error!.replaceAll("BadRequest!", "").trim())
+            }
+            else {
+                setUsernameSignUpIsValid(false)
+                setUsernameSignUpLabel((userInfo as ResponseInterface).error!.replaceAll("BadRequest!", "").trim())
+            }
+        }
+        else {
+            setUsernameSignUpIsValid(true)
+            setIsPassSignUpValid(true)
+            setIsRetypePassSignUpValid(true)
+
+            setUsernameSignUpLabel("Username")
+            setEmailLabel("Email")
+            setPasswordSignUpLabel("Password")
+            setRetypePasswordSignUpLabel("Retype Password")
+            setFirstNameLabel("First Name")
+            setLastNameLabel("Last Name")
+            setUser(userInfo as UserInterface)
+        }
     }
 
     return (
@@ -283,6 +337,7 @@ export default function Login() {
             >
                 <Box
                     sx={{
+                        minWidth: "30vw",
                         backgroundColor: '#fafcff',
                         display: "flex",
                         justifyContent: "top",
@@ -293,8 +348,8 @@ export default function Login() {
                         borderRadius: "1rem"
                     }}
                 >
-                    <Typography variant="h5" sx={{paddingBottom: "2rem"}}>
-                        Please Login
+                    <Typography variant="h5" sx={{paddingBottom: "2rem"}} id="TabTitle">
+                       <code> Please {value === 0? " Login": " Sign Up"} </code>
                     </Typography>
                     <Box sx={{ width: '100%'}}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider', display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -342,23 +397,23 @@ export default function Login() {
                                     {userIsValid?"Successfully Logged In":"Username or password is incorrect"}
                                 </Alert>
                             </Snackbar>
-                            <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
+                            <Button variant="text" fullWidth id='ForgotPassword' href="/forgot">Forgot Password</Button>
                             <Button variant="contained" fullWidth onClick={fetchUserData}>Sign In</Button>
                         </TabPanel>
-                        <TabPanel value={value} index={1} className="SignupTab">
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupUsername" className="SignupTabElement">
+                        <TabPanel value={value} index={1} className="SignUpTab">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignUpUsername" className="SignUpTabElement">
                                 <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField 
                                     id="input-with-sx" 
-                                    label={usernameSignupLabel} 
+                                    label={usernameSignUpLabel} 
                                     variant="standard" 
                                     placeholder='Username' 
-                                    error={!usernameSignupIsValid}
-                                    onChange={handleSetUsernameSignup}
-                                    value={usernameSignup}
+                                    error={!usernameSignUpIsValid}
+                                    onChange={handleSetUsernameSignUp}
+                                    value={usernameSignUp}
                                 />
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignUpEmail" className="SignUpTabElement">
                                 <EmailIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField
                                     id="input-with-sx"
@@ -367,11 +422,12 @@ export default function Login() {
                                     placeholder='Email'
                                     onChange={handleSetEmail}
                                     value={email}
+                                    error={!isEmailValid}
                                 />
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignUpEmail" className="SignUpTabElement">
                                 <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                                <div className='SignupName'>
+                                <div className='SignUpName'>
                                     <TextField
                                         id="input-with-sx signup-firstname"
                                         label={firstNameLabel}
@@ -382,7 +438,7 @@ export default function Login() {
                                     />
                                 </div>
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignUpEmail" className="SignUpTabElement">
                                 <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} id="LastNameIcon"/>
                                 <TextField
                                     id="input-with-sx signup-lastname"
@@ -393,41 +449,40 @@ export default function Login() {
                                     value={lastName}
                                 />
                             </Box> 
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupPassword" className="SignupTabElement">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignUpPassword" className="SignUpTabElement">
                                 <LockIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField 
                                     id="password-with-sx" 
-                                    label={passwordSignupLabel} 
+                                    label={passwordSignUpLabel} 
                                     variant="standard" 
                                     placeholder='Password' 
-                                    type={showSignupPassword?"text":"password"}
-                                    value={passwordSignup}
-                                    onChange={handleSetPasswordSignup}
-                                    error={!isPassSignupValid}
+                                    type={showSignUpPassword?"text":"password"}
+                                    value={passwordSignUp}
+                                    onChange={handleSetPasswordSignUp}
+                                    error={!isPassSignUpValid}
                                 />
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="RetypeSignupPassword" className="SignupTabElement">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="RetypeSignUpPassword" className="SignUpTabElement">
                                 <LockResetIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField
                                     id="password-with-sx"
-                                    label={retypePasswordSignupLabel}
+                                    label={retypePasswordSignUpLabel}
                                     variant="standard"
                                     placeholder='Retype Password'
-                                    type={showSignupPassword?"text":"password"}
-                                    onChange={handleSetRetypePasswordSignup}
-                                    error={!isRetypePassSignupValid}
+                                    type={showSignUpPassword?"text":"password"}
+                                    onChange={handleSetRetypePasswordSignUp}
+                                    error={!isRetypePassSignUpValid}
                                 />
                             </Box>
-                            <div id="ShowPasswordSignup">
-                                <Checkbox {...label} size="small" checked={showSignupPassword} onClick={handleShowSignupPassword} />
+                            <div id="ShowPasswordSignUp">
+                                <Checkbox {...label} size="small" checked={showSignUpPassword} onClick={handleShowSignUpPassword} />
                                 <p>Show Password</p>
                             </div>
-                            <div id="RememberPasswordSignup">
-                                <Checkbox {...label} size="small" checked={rememberPasswordSignup} onClick={handleRememberPasswordSignup} />
+                            <div id="RememberPasswordSignUp">
+                                <Checkbox {...label} size="small" checked={rememberPasswordSignUp} onClick={handleRememberPasswordSignUp} />
                                 <p>Remember Password</p>
                             </div>
-                            <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
-                            <Button variant="contained" fullWidth onClick={fetchUserData}>Sign Up</Button>
+                            <Button variant="contained" fullWidth onClick={createNewUser}>Sign Up</Button>
                         </TabPanel>
                     </Box>
                 </Box>

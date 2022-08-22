@@ -1,4 +1,4 @@
-.SignupTab, .SingupTabElement {
+.SignUpTab, .SingupTabElement {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,9 +7,10 @@
 .LoginTab {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-#SignupLastName {
+#SignUpLastName {
     display: flex;
     align-items: center;
 }
@@ -18,7 +19,7 @@
     margin-bottom: 1rem;
 }
 
-#RememberPassword, #ShowPassword, #ShowPasswordSignup, #RememberPasswordSignup {
+#RememberPassword, #ShowPassword, #ShowPasswordSignUp, #RememberPasswordSignUp {
     display: flex;
     flex-direction: row;
 }
@@ -27,19 +28,19 @@
     margin-bottom: 1rem;
 }
 
-#SignupEmail {
+#SignUpEmail {
     margin-bottom: 1rem;
 }
 
-#SignupPassword {
+#SignUpPassword {
     margin-bottom: 1rem;
 }
 
-#SignupUsername {
+#SignUpUsername {
     margin-bottom: 1rem;
 }
 
-.SignupName {
+.SignUpName {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

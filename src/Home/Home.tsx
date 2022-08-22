@@ -6,7 +6,7 @@ import logo from '../logo.svg';
 export default function Home() {
     return (
         <div className="App">
-            <NavBar />
+            <NavBar isHome />
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>Edit <code>App.tsx</code> and save to reload.</p>
