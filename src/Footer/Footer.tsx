@@ -2,6 +2,7 @@ import "./Footer.css";
 
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import { Typography } from "@mui/material";
 
 
 const getSortedCount = (count: number, col: number) => {
@@ -26,13 +27,9 @@ export default function Footer() {
                 spacing={1}
                 className="Footer"
             >
-                {
-                    getSortedCount(6, 3).map(e=> (
-                        <Grid item sm={4} md={4} key={e} sx={{textAlign: "center"}}>
-                            {e}
-                        </Grid>
-                    ))
-                }
+                <Typography variant="body2">
+                   <a href="/about-us">About Us</a>
+                </Typography>
             </Grid>
         </footer>
     );
