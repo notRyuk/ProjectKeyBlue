@@ -118,11 +118,21 @@ export default function Login() {
         setUsername(userData)
     }
 
+    const [usernameSignupIsValid, setUsernameSignupIsValid] = useState<boolean>(true)
+    const handleUsernameSignupIsValid = () => setUsernameSignupIsValid(!usernameSignupIsValid)
+
     const [usernameSignup, setUsernameSignup] = useState<string>("")
     const [usernameSignupLabel, setUsernameSignupLabel] = useState<string>("Username")
     const handleSetUsernameSignup = (event: ChangeEvent<HTMLInputElement>) => {
         const userData = event.target.value.trim()
-        validateUserData(userData)
+        if(userData.length === 0 || !/^[a-zA-z][a-zA-Z0-9_-]+[a-zA-Z]$/.test(userData)) {
+            setUsernameSignupIsValid(false)
+            setUsernameSignupLabel("Invalid Username format")
+        }
+        else {
+            setUsernameSignupIsValid(true)
+            setUsernameSignupLabel("Username")
+        }
         setUsernameSignup(userData)
     }
 
@@ -141,6 +151,12 @@ export default function Login() {
     const [lastName, setLastName] = useState<string>("")
     const[lastNameLabel, setLastNameLabel] = useState<string>("Last Name")
     const handleSetLastName = (event: ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())
+
+    const [showPasswordSignup, setShowPasswordSignup] = useState<boolean>(false)
+    const handleShowPasswordSignup = () => setShowPasswordSignup(!showPasswordSignup)
+
+    const [rememberPasswordSignup, setRememberPasswordSignup] = useState<boolean>(false)
+    const handleRememberPasswordSignup = () => setRememberPasswordSignup(!rememberPasswordSignup)
 
     const [password, setPassword] = useState<string>("")
     const [passwordLabel, setPasswordLabel] = useState<string>("Password")
@@ -245,7 +261,17 @@ export default function Login() {
         }
     }
 
-    
+    const createNewUser = async () => {
+        var userInfo: ResponseInterface = await axios.post(basePath + "/user/create", {
+            data: {
+                userName: usernameSignup,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                blogs: []
+            }
+        })
+    }
 
     return (
         <>
@@ -255,11 +281,6 @@ export default function Login() {
             >
                 <Box
                     sx={{
-<<<<<<< HEAD
-                        // width: "50%",
-                        // height: "60%",
-=======
->>>>>>> 9e1f4aca6a5d4c2cd3347c7ea0ce5f2d57a1b217
                         backgroundColor: '#fafcff',
                         display: "flex",
                         justifyContent: "top",
@@ -322,7 +343,6 @@ export default function Login() {
                             <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
                             <Button variant="contained" fullWidth onClick={fetchUserData}>Sign In</Button>
                         </TabPanel>
-<<<<<<< HEAD
                         <TabPanel value={value} index={1} className="SignupTab">
                             <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupUsername" className="SignupTabElement">
                                 <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -331,9 +351,9 @@ export default function Login() {
                                     label={usernameSignupLabel} 
                                     variant="standard" 
                                     placeholder='Username' 
-                                    error={!idIsValid}
+                                    error={!usernameSignupIsValid}
                                     onChange={handleSetUsernameSignup}
-                                    value={username}
+                                    value={usernameSignup}
                                 />
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
@@ -358,16 +378,19 @@ export default function Login() {
                                         onChange={handleSetFirstName}
                                         value={firstName}
                                     />
-                                    <TextField
-                                        id="input-with-sx signup-lastname"
-                                        label={lastNameLabel}
-                                        variant="standard"
-                                        placeholder='Last Name'
-                                        onChange={handleSetLastName}
-                                        value={lastName}
-                                    />
                                 </div>
                             </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupEmail" className="SignupTabElement">
+                                <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} id="LastNameIcon"/>
+                                <TextField
+                                    id="input-with-sx signup-lastname"
+                                    label={lastNameLabel}
+                                    variant="standard"
+                                    placeholder='Last Name'
+                                    onChange={handleSetLastName}
+                                    value={lastName}
+                                />
+                            </Box> 
                             <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="SignupPassword" className="SignupTabElement">
                                 <LockIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                 <TextField 
@@ -394,7 +417,7 @@ export default function Login() {
                                 />
                             </Box>
                             <div id="ShowPasswordSignup">
-                                <Checkbox {...label} size="small" checked={showPasswordSignup} onClick={handleShowPasswordSignup} />
+                                <Checkbox {...label} size="small" checked={showSignupPassword} onClick={handleShowSignupPassword} />
                                 <p>Show Password</p>
                             </div>
                             <div id="RememberPasswordSignup">
@@ -402,13 +425,7 @@ export default function Login() {
                                 <p>Remember Password</p>
                             </div>
                             <Button variant="text" fullWidth id='ForgotPassword'>Forgot Password</Button>
-                            <Button variant="contained" fullWidth onClick={fetchUserData}>SignIn</Button>
-=======
-                        <TabPanel value={value} index={1} className="LoginTab">
-                            <Typography>
-                                There is nothing here yet!
-                            </Typography>
->>>>>>> 9e1f4aca6a5d4c2cd3347c7ea0ce5f2d57a1b217
+                            <Button variant="contained" fullWidth onClick={fetchUserData}>Sign Up</Button>
                         </TabPanel>
                     </Box>
                 </Box>

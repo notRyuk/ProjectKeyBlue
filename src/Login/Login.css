@@ -9,11 +9,16 @@
     justify-content: center;
 }
 
+#SignupLastName {
+    display: flex;
+    align-items: center;
+}
+
 #LoginUsername {
     margin-bottom: 1rem;
 }
 
-#RememberPassword, #ShowPassword {
+#RememberPassword, #ShowPassword, #ShowPasswordSignup, #RememberPasswordSignup {
     display: flex;
     flex-direction: row;
 }
@@ -37,8 +42,16 @@
 .SignupName {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 #signup-firstname {
     margin-bottom: 1rem;
+}
+
+@media (max-width: 375px) {
+    #LastNameIcon {
+        display: inline;
+        flex-direction: column;
+    }
 }
