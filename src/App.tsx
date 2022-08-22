@@ -7,6 +7,7 @@ import Error from "./Error/Error";
 import { useState } from "react";
 import tokenizer from "./tokenizer";
 import Forgot from "./Forgot/Forgot";
+import About from "./AboutUs/AboutUs";
 
 var pathList: string[] = []
 const NewRoute = (props: PathRouteProps | LayoutRouteProps | IndexRouteProps) => {
@@ -83,6 +84,7 @@ function App() {
         <Route path="/forgot" element={
           <Forgot />
         } />
+        <Route path="/about-us" element={<About />} />
         {/* <Route path={"/404"} element={<Error />} /> */}
         <Route path={"*"} element={<Navigate to={"/"} />} />
       </Routes>
