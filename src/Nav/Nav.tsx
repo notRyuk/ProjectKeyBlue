@@ -25,6 +25,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { SvgIconTypeMap } from "@mui/material/SvgIcon";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import Menu from "@mui/material/Menu";
@@ -45,7 +46,8 @@ var navItemList: NavItem[] = [
     {value: "About", link: "_blank", Icon: InfoIcon}, 
     {value: "Contact", link: "_blank", Icon: ContactsIcon},
     {value: "Blogs", link: "_blank", Icon: TextSnippetIcon},
-    {value: "NGO", link: "_blank", Icon: ApartmentIcon}
+    {value: "NGO", link: "_blank", Icon: ApartmentIcon},
+    {value: "Contact", link: "_blank", Icon: ContactSupportIcon}
 ]
 
 interface Props {
