@@ -2,3 +2,8 @@
     background-color: #3f8cda;
     color: white;
 }
+
+.FooterElement a, .FooterElement a:hover {
+    text-decoration: none;
+    color: white;
+}

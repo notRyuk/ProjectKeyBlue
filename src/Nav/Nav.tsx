@@ -27,6 +27,8 @@ import { SvgIconTypeMap } from "@mui/material/SvgIcon";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import Slide from "@mui/material/Slide";
 
 interface NavItem {
     value: string;
@@ -36,11 +38,28 @@ interface NavItem {
     };
 }
 
+interface HideOnScrollProps {
+    window?: () => Window;
+    children: React.ReactElement;
+}
+
+function HideOnScroll(props: HideOnScrollProps) {
+    const { children, window } = props;
+    const trigger = useScrollTrigger({
+      target: window ? window() : undefined
+    });
+  
+    return (
+      <Slide appear={false} direction="down" in={!trigger}>
+        {children}
+      </Slide>
+    );
+}
 
 const drawerWidth = 240
 var navItemList: NavItem[] = [
-    {value: "Home", link: "_blank", Icon: HomeIcon}, 
-    {value: "About", link: "_blank", Icon: InfoIcon}, 
+    {value: "Home", link: "/", Icon: HomeIcon}, 
+    {value: "About", link: "/about-us", Icon: InfoIcon}, 
     {value: "Contact", link: "_blank", Icon: ContactsIcon},
 ]
 
@@ -71,8 +90,8 @@ export default function NavBar({window, navItems, isHome}: Props) {
     };
     const drawer = (
         <Box id="NavMobileOpen" onClick={handleDrawerToggle} sx={{ textAlign: "center", htmlColor: mobileOpen?"white":"#1976d2" }}>
-            <Typography variant="h5" sx={{ my: 2, display: {sm: "flex", justifyContent: "center"}}} className="LogoContainer">
-                <a href="/" target={"_self"} className = "LogoContainer">
+            <Typography variant="h5" sx={{ my: 2, display: {sm: "flex", justifyContent: "center"}}} className="LogoContainer LogoContainerMobile">
+                <a href="/" target={"_self"} className = "LogoContainer LogoContainerMobile">
                     <img src={LogoIcon} className="LogoIcon" alt="Logo" id="LogoIconMobile" />
                     KeyBlue
                 </a>
@@ -94,113 +113,118 @@ export default function NavBar({window, navItems, isHome}: Props) {
                     <a href="/login">Login</a>
                 </Typography>
                 <Typography variant="h6" sx={{my: 2, display: {sm: "flex", justifyContent: "center"}}}>
-                    <a href="_blank">Sign Up</a>
+                    <a href="/signup">Sign Up</a>
                 </Typography>
             </List>
         </Box>
     );
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
-        <Box id="NavMobileClose" sx={{ display: "flex", htmlColor: mobileOpen?"white":"#1976d2"}}>
-            <AppBar component="nav"> 
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: "none" } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: "none", sm: "flex" },
-                            textAlign: "left",
-                        }}
-                        className = "LogoContainer"
-                    >
-                        <a href="/" target={"_self"} className = "LogoContainer">
-                            <img src={LogoIcon} className="LogoIcon" alt="Logo" />
-                            KeyBlue
-                        </a>
-                    </Typography>
-                    <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center"}, gap: "0.5rem" }}>
-                        {navItems.map(({value, link, Icon}) => {
-                            if(Icon) {
-                                return (
-                                    <Fab 
-                                        key={value} 
-                                        variant="extended" 
-                                        sx={{
-                                            display: "flex", 
-                                            alignItems: "center", 
-                                            color: "primary.dark",
-                                            transform: "scale(0.8)",
-                                        }} 
-                                        href={link}
-                                    >
-                                        <Icon />
-                                        {/* {value} */}
-                                    </Fab>
-                                )
-                            }
-                            return <Fab key={value} sx={{ color: "primary.dark", padding: "rem" }} href={link}>{value}</Fab>
-                        })}
-                        <Fab 
-                            variant="extended" 
+        <HideOnScroll window={window}>
+            <Box id="NavMobileClose" sx={{ display: "flex", htmlColor: mobileOpen?"white":"#1976d2"}}>
+                <AppBar component="nav" position="fixed"> 
+                    <Toolbar>
+                        <IconButton
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                            sx={{ mr: 2, display: { sm: "none" } }}
+                            className={"NavButton"}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            variant="h6"
+                            component="div"
                             sx={{
-                                display: "flex", 
-                                alignItems: "center", 
-                                color: "primary.dark", 
-                                transform: "scale(0.9)"
+                                flexGrow: 1,
+                                display: { xs: "none", sm: "flex" },
+                                textAlign: "left",
                             }}
-                            aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
+                            className = "LogoContainer"
                         >
-                            <PersonIcon inheritViewBox={true}/>
-                        </Fab>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            <Box component="nav">
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true,
-                    }}
-                    sx={{
-                        display: { xs: "block", sm: "none" },
-                        "& .MuiDrawer-paper": {
-                            boxSizing: "border-box",
-                            width: drawerWidth,
-                        }
-                    }}
-                >
-                    {drawer}
-                </Drawer>
+                            <a href="/" target={"_self"} className="LogoContainer">
+                                <img src={LogoIcon} className="LogoIcon" alt="Logo" />
+                                KeyBlue
+                            </a>
+                        </Typography>
+                        <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center"}, gap: "0.5rem" }}>
+                            {navItems.map(({value, link, Icon}) => {
+                                if(Icon) {
+                                    return (
+                                        <Fab 
+                                            key={value} 
+                                            variant="circular" 
+                                            sx={{
+                                                display: "flex", 
+                                                alignItems: "center", 
+                                                color: "primary.dark",
+                                                transform: "scale(0.8)",
+                                            }} 
+                                            href={link}
+                                        >
+                                            <Icon />
+                                        </Fab>
+                                    )
+                                }
+                                return <Fab key={value} sx={{ color: "primary.dark", padding: "rem" }} href={link}>{value}</Fab>
+                            })}
+                            <Fab 
+                                variant="extended" 
+                                sx={{
+                                    display: "flex", 
+                                    alignItems: "center", 
+                                    color: "primary.dark", 
+                                    transform: "scale(0.9)"
+                                }}
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                <PersonIcon inheritViewBox={true}/>
+                            </Fab>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                <Box component="nav">
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                        sx={{
+                            display: { xs: "block", sm: "none" },
+                            "& .MuiDrawer-paper": {
+                                boxSizing: "border-box",
+                                width: drawerWidth,
+                            },
+                            "& .css-11b3ww9-MuiPaper-root-MuiAppBar-root": {
+                                backgroundColor: "transparent"
+                            }
+                        }}
+                        className="NavMobile"
+                    >
+                        {drawer}
+                    </Drawer>
+                </Box>
             </Box>
-        </Box>
+        </HideOnScroll>
     );
 }

@@ -1,0 +1,17 @@
+.ImageButton:hover, .ImageButton, .ImageButton:active {
+    background: none !important;
+    outline: none;
+    border: none;
+}
+
+.ImageButton:hover .ImageIcon {
+    transform: scale(2);
+}
+
+.ImageContainer {
+    width: 90vw;
+}
+
+.Image {
+    object-fit: cover;
+}

@@ -1,4 +1,4 @@
-.SignUpTab, .SingupTabElement {
+.SignUpTab, .SingUpTabElement {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,6 +40,10 @@
     margin-bottom: 1rem;
 }
 
+#LoginPassword, #RetypeSignUpPassword {
+    margin-bottom: 1rem;
+}
+
 .SignUpName {
     display: flex;
     flex-direction: row;
@@ -55,4 +59,8 @@
         display: inline;
         flex-direction: column;
     }
+}
+
+.PrivateSwitchBase-input {
+    display: none;
 }

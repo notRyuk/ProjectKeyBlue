@@ -2,7 +2,7 @@
     height: 5vmin;
     position: relative;
     border-radius: 50%;
-    transform: scale(0.8);
+    transform: scale(0.8) !important;
 }
 
 #LogoIconMobile {
@@ -15,7 +15,22 @@
     align-items: center;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
+.LogoContainer a, .LogoContainer a:hover {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.LogoContainerMobile a, .LogoContainerMobile a:hover {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.NavButton {
+    color: white;
+    background-color: transparent;
+}
+
+.NavButton:hover {
+    color: "primary.dark";
+    background-color: white;
 }
