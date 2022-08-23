@@ -43,8 +43,6 @@ interface NavItem {
 const drawerWidth = 240
 var navItemList: NavItem[] = [
     {value: "Home", link: "_blank", Icon: HomeIcon}, 
-    {value: "About", link: "_blank", Icon: InfoIcon}, 
-    {value: "Contact", link: "_blank", Icon: ContactsIcon},
     {value: "Blogs", link: "_blank", Icon: TextSnippetIcon},
     {value: "NGO", link: "_blank", Icon: ApartmentIcon},
     {value: "Contact", link: "_blank", Icon: ContactSupportIcon}
