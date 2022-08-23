@@ -44,7 +44,7 @@ export default function Footer() {
                 </Grid>
                 <Grid item sm={2} md={1}>
                     <Typography variant="body2" className="FooterElement">
-                        <a href="/Copyright">Copyright</a>
+                        <a href="/Copyright.html">Copyright</a>
                     </Typography>
                 </Grid>
                 <Grid item sm={2} md={1}>
