@@ -85,8 +85,8 @@ function App() {
           <Forgot />
         } />
         <Route path="/about-us" element={<About />} />
-        {/* <Route path={"/404"} element={<Error />} /> */}
-        <Route path={"*"} element={<Navigate to={"/"} />} />
+        <Route path={"/404"} element={<Error />} />
+        <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
     </BrowserRouter>
   );
