@@ -5,16 +5,6 @@ import Divider from "@mui/material/Divider";
 import { Typography } from "@mui/material";
 
 
-const getSortedCount = (count: number, col: number) => {
-    var arr = [] as number[]
-    for(var i=0; i<count; i++) {
-        arr.push(i+1)
-    } 
-    return arr.sort((a, b) => a%col-b%col)
-}
-
-console.log(getSortedCount(6, 3))
-
 export default function Footer() {
     return (
         <footer>

@@ -49,35 +49,69 @@ interface HideOnScrollProps {
 function HideOnScroll(props: HideOnScrollProps) {
     const { children, window } = props;
     const trigger = useScrollTrigger({
-      target: window ? window() : undefined
+        target: window ? window() : undefined
     });
-  
+
     return (
-      <Slide appear={false} direction="down" in={!trigger}>
-        {children}
-      </Slide>
+        <Slide appear={false} direction="down" in={!trigger}>
+            {children}
+        </Slide>
     );
 }
 
 const drawerWidth = 240
 var navItemList: NavItem[] = [
-    {value: "Home", link: "_blank", Icon: HomeIcon}, 
-    {value: "Blogs", link: "_blank", Icon: TextSnippetIcon},
-    {value: "NGO", link: "_blank", Icon: ApartmentIcon},
-    {value: "Contact", link: "_blank", Icon: ContactSupportIcon}
+    { value: "Home", link: "_blank", Icon: HomeIcon },
+    { value: "Blogs", link: "_blank", Icon: TextSnippetIcon },
+    { value: "NGO", link: "_blank", Icon: ApartmentIcon },
+    { value: "Contact", link: "_blank", Icon: ContactSupportIcon }
 ]
+
+interface MiniBlog {
+    _id: string;
+    name: string;
+    description?: string;
+}
+
+interface UserInterface {
+    _id: string;
+    name: {
+        first: string;
+        last?: string;
+    };
+    email: string;
+    blogs?: MiniBlog[];
+    encryption: string;
+}
 
 interface Props {
     window?: () => Window;
     navItems?: NavItem[];
     isHome: boolean;
+    user: UserInterface;
+    setUser: (newUser: UserInterface) => void;
 }
 
-export default function NavBar({window, navItems, isHome}: Props) {
-    if(!navItems) {
+export default function NavBar({ window, navItems, isHome, setUser, user }: Props) {
+
+    const handleLogout = () => {
+        localStorage.removeItem("globalUser")
+        setUser(JSON.parse(localStorage.getItem("globalUser")!) as UserInterface || {
+            _id: "",
+            name: {
+                first: "",
+                last: ""
+            },
+            email: "",
+            encryption: "",
+            blogs: []
+        })
+    }
+
+    if (!navItems) {
         navItems = navItemList
     }
-    if(isHome) {
+    if (isHome) {
         navItemList = navItemList.filter(e => e.value !== "Home")
     }
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
@@ -93,19 +127,19 @@ export default function NavBar({window, navItems, isHome}: Props) {
         setAnchorEl(null);
     };
     const drawer = (
-        <Box id="NavMobileOpen" onClick={handleDrawerToggle} sx={{ textAlign: "center", htmlColor: mobileOpen?"white":"#1976d2" }}>
-            <Typography variant="h5" sx={{ my: 2, display: {sm: "flex", justifyContent: "center"}}} className="LogoContainer LogoContainerMobile">
-                <a href="/" target={"_self"} className = "LogoContainer LogoContainerMobile">
+        <Box id="NavMobileOpen" onClick={handleDrawerToggle} sx={{ textAlign: "center", htmlColor: mobileOpen ? "white" : "#1976d2" }}>
+            <Typography variant="h5" sx={{ my: 2, display: { sm: "flex", justifyContent: "center" } }} className="LogoContainer LogoContainerMobile">
+                <a href="/" target={"_self"} className="LogoContainer LogoContainerMobile">
                     <img src={LogoIcon} className="LogoIcon" alt="Logo" id="LogoIconMobile" />
                     KeyBlue
                 </a>
             </Typography>
             <Divider />
             <List>
-                {navItems.map(({value, link}) => (
+                {navItems.map(({ value, link }) => (
                     <ListItem key={value} disablePadding>
-                        <ListItemButton 
-                            sx={{ textAlign: "center" }} 
+                        <ListItemButton
+                            sx={{ textAlign: "center" }}
                             href={link}
                         >
                             <ListItemText primary={value} />
@@ -113,10 +147,10 @@ export default function NavBar({window, navItems, isHome}: Props) {
                     </ListItem>
                 ))}
                 <Divider />
-                <Typography variant="h6" sx={{my: 2, display: {sm: "flex", justifyContent: "center"}}}>
+                <Typography variant="h6" sx={{ my: 2, display: { sm: "flex", justifyContent: "center" } }}>
                     <a href="/login">Login</a>
                 </Typography>
-                <Typography variant="h6" sx={{my: 2, display: {sm: "flex", justifyContent: "center"}}}>
+                <Typography variant="h6" sx={{ my: 2, display: { sm: "flex", justifyContent: "center" } }}>
                     <a href="/signup">Sign Up</a>
                 </Typography>
             </List>
@@ -125,8 +159,8 @@ export default function NavBar({window, navItems, isHome}: Props) {
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
         <HideOnScroll window={window}>
-            <Box id="NavMobileClose" sx={{ display: "flex", htmlColor: mobileOpen?"white":"#1976d2"}}>
-                <AppBar component="nav" position="fixed"> 
+            <Box id="NavMobileClose" sx={{ display: "flex", htmlColor: mobileOpen ? "white" : "#1976d2" }}>
+                <AppBar component="nav" position="fixed">
                     <Toolbar>
                         <IconButton
                             aria-label="open drawer"
@@ -145,26 +179,26 @@ export default function NavBar({window, navItems, isHome}: Props) {
                                 display: { xs: "none", sm: "flex" },
                                 textAlign: "left",
                             }}
-                            className = "LogoContainer"
+                            className="LogoContainer"
                         >
                             <a href="/" target={"_self"} className="LogoContainer">
                                 <img src={LogoIcon} className="LogoIcon" alt="Logo" />
                                 KeyBlue
                             </a>
                         </Typography>
-                        <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center"}, gap: "0.5rem" }}>
-                            {navItems.map(({value, link, Icon}) => {
-                                if(Icon) {
+                        <Box sx={{ display: { xs: "none", sm: "flex", justifyContent: "center", alignItems: "center" }, gap: "0.5rem" }}>
+                            {navItems.map(({ value, link, Icon }) => {
+                                if (Icon) {
                                     return (
-                                        <Fab 
-                                            key={value} 
-                                            variant="circular" 
+                                        <Fab
+                                            key={value}
+                                            variant="circular"
                                             sx={{
-                                                display: "flex", 
-                                                alignItems: "center", 
+                                                display: "flex",
+                                                alignItems: "center",
                                                 color: "primary.dark",
                                                 transform: "scale(0.8)",
-                                            }} 
+                                            }}
                                             href={link}
                                         >
                                             <Icon />
@@ -173,12 +207,12 @@ export default function NavBar({window, navItems, isHome}: Props) {
                                 }
                                 return <Fab key={value} sx={{ color: "primary.dark", padding: "rem" }} href={link}>{value}</Fab>
                             })}
-                            <Fab 
-                                variant="extended" 
+                            <Fab
+                                variant="extended"
                                 sx={{
-                                    display: "flex", 
-                                    alignItems: "center", 
-                                    color: "primary.dark", 
+                                    display: "flex",
+                                    alignItems: "center",
+                                    color: "primary.dark",
                                     transform: "scale(0.9)"
                                 }}
                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -186,7 +220,8 @@ export default function NavBar({window, navItems, isHome}: Props) {
                                 aria-expanded={open ? 'true' : undefined}
                                 onClick={handleClick}
                             >
-                                <PersonIcon inheritViewBox={true}/>
+                                <PersonIcon inheritViewBox={true} />
+                                {user._id && user.name.first}
                             </Fab>
                             <Menu
                                 id="basic-menu"
@@ -194,12 +229,20 @@ export default function NavBar({window, navItems, isHome}: Props) {
                                 open={open}
                                 onClose={handleClose}
                                 MenuListProps={{
-                                'aria-labelledby': 'basic-button',
+                                    'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                {user._id.length > 0 ? (
+                                    <>
+                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                        <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
+                                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                    </>) : (
+                                    <>
+                                        <MenuItem ><a href="/login">Login</a></MenuItem>
+                                        <MenuItem><a href="/signup">Sign Up</a></MenuItem>
+                                    </>)
+                                }
                             </Menu>
                         </Box>
                     </Toolbar>

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, PathRouteProps, LayoutRouteProps, IndexRo
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Error from "./Error/Error";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import tokenizer from "./tokenizer";
 import Forgot from "./Forgot/Forgot";
 import About from "./AboutUs/AboutUs";
@@ -42,7 +42,7 @@ interface UserInterface {
 //https://stackoverflow.com/questions/70724269/react-router-v6-route-composition-is-it-possible-to-render-a-custom-route
 
 function App() {
-  const [user, setUser] = useState<UserInterface>({
+  const [user, setUser] = useState<UserInterface>(JSON.parse(localStorage.getItem("globalUser")!) as UserInterface || {
     _id: "",
     name: {
       first: "",
@@ -53,20 +53,28 @@ function App() {
     blogs: []
   })
 
+  useEffect(() => {
+    localStorage.setItem("globalUser", JSON.stringify(user))
+  }, [user])
+
   const [backDropState, setBackDropState] = useState<boolean>(true);
-  const closeBackDrop = () => {
-    setBackDropState(false)
-  }
+  const closeBackDrop = () => setBackDropState(false)
   const toggleBackDrop = () => setBackDropState(!backDropState)
+
+  const handleSetUser = (newUser: UserInterface) => {
+    setUser(newUser)
+    localStorage.setItem("globalUser", JSON.stringify(user))
+    console.log(JSON.parse(localStorage.getItem("globalUser") as string))
+  }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<Home />} />
+        <Route path={"/"} element={<Home user={user} setUser={handleSetUser} />} />
         <Route path={"/login"} element={
           <Login 
             user={user} 
-            setUser={setUser} 
+            setUser={handleSetUser} 
             tab={0} 
             backDropState 
             setBackDropState={setBackDropState} 
@@ -84,7 +92,7 @@ function App() {
         <Route path="/forgot" element={
           <Forgot />
         } />
-        <Route path="/about-us" element={<About />} />
+        <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
         <Route path={"/404"} element={<Error />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>

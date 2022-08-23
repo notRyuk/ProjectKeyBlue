@@ -5,11 +5,33 @@ import Images from "../Images/Images";
 import { Divider, Typography } from "@mui/material";
 import { imageList } from "./images"
 
-export default function Home() {
+interface MiniBlog {
+    _id: string;
+    name: string;
+    description?: string;
+}
+
+interface UserInterface {
+    _id: string;
+    name: {
+        first: string;
+        last?: string;
+    };
+    email: string;
+    blogs?: MiniBlog[];
+    encryption: string;
+}
+
+interface Props {
+    user: UserInterface;
+    setUser: (newUser: UserInterface) => void;
+}
+
+export default function Home({user, setUser}: Props) {
     
     return (
         <div className="App">
-            <NavBar isHome />
+            <NavBar isHome user={user} setUser={setUser}/>
             <header className="App-header">
                 <Images imageList={imageList} />
                 <Divider />

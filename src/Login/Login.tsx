@@ -13,6 +13,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
 
 import { AccountCircle } from '@mui/icons-material';
 import Checkbox from '@mui/material/Checkbox';
@@ -82,7 +83,7 @@ function TabPanel(props: TabPanelProps) {
 
 interface Props {
     user: UserInterface;
-    setUser: React.Dispatch<React.SetStateAction<UserInterface>>;
+    setUser: (newUser: UserInterface) => void;
     tab: 0 | 1;
     backDropState: boolean;
     setBackDropState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -90,7 +91,7 @@ interface Props {
 
 
 export default function Login({user, setUser, tab, backDropState, setBackDropState}: Props) {
-    
+    const navigate = useNavigate();
     const [value, setValue] = useState(tab);
 
     const handleChangeTab = (event: React.SyntheticEvent, newValue: 0 | 1) => {
@@ -208,22 +209,6 @@ export default function Login({user, setUser, tab, backDropState, setBackDropSta
         setPasswordSignUp(event.target.value.trim())
     }
 
-    const [retypePasswordSignUp, setRetypePasswordSignUp] = useState<string>("")
-    const [retypePasswordSignUpLabel, setRetypePasswordSignUpLabel] = useState<string>("Retype Password")
-    const [isRetypePassSignUpValid, setIsRetypePassSignUpValid] = useState<boolean>(true)
-    const handleSetRetypePasswordSignUp = (event: ChangeEvent<HTMLInputElement>) => {
-        if(event.target.value.trim().length < 8 || retypePasswordSignUp !== passwordSignUp) {
-            setIsRetypePassSignUpValid(false)
-            setRetypePasswordSignUpLabel("Password (Min: 8)")
-        }
-        else {
-            setIsRetypePassSignUpValid(true)
-            setRetypePasswordSignUpLabel("Password")
-        }
-        console.log(retypePasswordSignUp)
-        setRetypePasswordSignUp(event.target.value.trim())
-    }
-
     const validateUserData = (data: string = "") => {
         if(data.length === 0) {
             setIdIsValid(false)
@@ -285,6 +270,7 @@ export default function Login({user, setUser, tab, backDropState, setBackDropSta
                 setIsPassValid(true)
                 setUserIsValid(true)
                 setUser((userInfo.col! as UserInterface))
+                navigate(-1);
             }
         }
     }
@@ -317,15 +303,14 @@ export default function Login({user, setUser, tab, backDropState, setBackDropSta
         else {
             setUsernameSignUpIsValid(true)
             setIsPassSignUpValid(true)
-            setIsRetypePassSignUpValid(true)
 
             setUsernameSignUpLabel("Username")
             setEmailLabel("Email")
             setPasswordSignUpLabel("Password")
-            setRetypePasswordSignUpLabel("Retype Password")
             setFirstNameLabel("First Name")
             setLastNameLabel("Last Name")
             setUser(userInfo as UserInterface)
+            navigate(-1);
         }
     }
 
@@ -460,18 +445,6 @@ export default function Login({user, setUser, tab, backDropState, setBackDropSta
                                     value={passwordSignUp}
                                     onChange={handleSetPasswordSignUp}
                                     error={!isPassSignUpValid}
-                                />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: "100%" }} id="RetypeSignUpPassword" className="SignUpTabElement">
-                                <LockResetIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                                <TextField
-                                    id="password-with-sx"
-                                    label={retypePasswordSignUpLabel}
-                                    variant="standard"
-                                    placeholder='Retype Password'
-                                    type={showSignUpPassword?"text":"password"}
-                                    onChange={handleSetRetypePasswordSignUp}
-                                    error={!isRetypePassSignUpValid}
                                 />
                             </Box>
                             <div id="ShowPasswordSignUp">

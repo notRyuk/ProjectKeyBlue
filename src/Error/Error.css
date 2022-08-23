@@ -36,6 +36,11 @@ body{
     monospace;
 }
 
+.fof a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .fof a:hover {
     color: #23272e;
 }

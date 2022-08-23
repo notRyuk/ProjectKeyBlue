@@ -3,10 +3,32 @@ import "github-markdown-css/github-markdown-light.css"
 import NavBar from '../Nav/Nav'
 import Footer from '../Footer/Footer';
 
-export default function About() {
+interface MiniBlog {
+    _id: string;
+    name: string;
+    description?: string;
+}
+
+interface UserInterface {
+    _id: string;
+    name: {
+        first: string;
+        last?: string;
+    };
+    email: string;
+    blogs?: MiniBlog[];
+    encryption: string;
+}
+
+interface Props {
+    user: UserInterface;
+    setUser: (newUser: UserInterface) => void;
+}
+
+export default function About({user, setUser}: Props) {
     return (
         <div>
-            <NavBar isHome={false} />
+            <NavBar isHome={false} user={user} setUser={setUser}/>
             <div className="markdown-body Container App-Logo">
                 <h1 id="aboutus">About us</h1>
                 <p>
