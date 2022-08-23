@@ -22,7 +22,10 @@ import Typography from "@mui/material/Typography";
 import Fab from "@mui/material/Fab";
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { SvgIconTypeMap } from "@mui/material/SvgIcon";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import Menu from "@mui/material/Menu";
@@ -58,9 +61,10 @@ function HideOnScroll(props: HideOnScrollProps) {
 
 const drawerWidth = 240
 var navItemList: NavItem[] = [
-    {value: "Home", link: "/", Icon: HomeIcon}, 
-    {value: "About", link: "/about-us", Icon: InfoIcon}, 
-    {value: "Contact", link: "_blank", Icon: ContactsIcon},
+    {value: "Home", link: "_blank", Icon: HomeIcon}, 
+    {value: "Blogs", link: "_blank", Icon: TextSnippetIcon},
+    {value: "NGO", link: "_blank", Icon: ApartmentIcon},
+    {value: "Contact", link: "_blank", Icon: ContactSupportIcon}
 ]
 
 interface Props {
