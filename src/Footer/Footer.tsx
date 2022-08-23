@@ -2,6 +2,7 @@ import "./Footer.css";
 
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import { Typography } from "@mui/material";
 
 
 const getSortedCount = (count: number, col: number) => {
@@ -26,13 +27,32 @@ export default function Footer() {
                 spacing={1}
                 className="Footer"
             >
-                {
-                    getSortedCount(6, 3).map(e=> (
-                        <Grid item sm={4} md={4} key={e} sx={{textAlign: "center"}}>
-                            {e}
-                        </Grid>
-                    ))
-                }
+                <Grid item sm={2} md={1}>
+                    <Typography variant="body2">
+                    <a href="/about-us">About Us</a>
+                    </Typography>
+                    </Grid>
+                
+                <Grid item sm={2} md={1}>
+                <Typography variant="body2">
+                   <a href="/contact-us">Contact Us</a>
+                </Typography>
+                </Grid>
+                <Grid item sm={2} md={1}>
+                <Typography variant="body2">
+                   <a href="/Terms">Terms & Conditions</a>
+                </Typography>
+                </Grid>
+                <Grid item sm={2} md={1}>
+                <Typography variant="body2">
+                   <a href="/Copyright">Copyright</a>
+                </Typography>
+                </Grid>
+                <Grid item sm={2} md={1}>
+                <Typography variant="body2">
+                   <a href="https://technophilesapi.herokuapp.com/">API</a>
+                </Typography>
+                </Grid>
             </Grid>
         </footer>
     );
