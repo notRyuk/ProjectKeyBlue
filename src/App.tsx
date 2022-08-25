@@ -9,6 +9,7 @@ import tokenizer from "./tokenizer";
 import Forgot from "./Forgot/Forgot";
 import About from "./AboutUs/AboutUs";
 import Blog from "./Blog/Blog";
+import News from "./News/News";
 
 var pathList: string[] = []
 const NewRoute = (props: PathRouteProps | LayoutRouteProps | IndexRouteProps) => {
@@ -95,6 +96,7 @@ function App() {
         <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
         <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya" />} />
         <Route path={"/404"} element={<Error />} />
+        <Route path={"/test"} element={<News />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
     </BrowserRouter>

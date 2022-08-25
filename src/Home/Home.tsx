@@ -5,6 +5,7 @@ import Images from "../Images/Images";
 import { Divider, Typography } from "@mui/material";
 import { imageList } from "./images"
 import "github-markdown-css/github-markdown-light.css"
+import News from "../News/News";
 
 interface MiniBlog {
     _id: string;
@@ -85,6 +86,7 @@ export default function Home({user, setUser}: Props) {
                 </div>
                 <Divider />
             </header>
+            <News />
             <Footer />
         </div>
     )
