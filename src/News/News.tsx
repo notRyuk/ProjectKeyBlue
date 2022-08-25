@@ -75,9 +75,6 @@ export default function News() {
     }, [])
     return (
         <>
-            <Typography component="div" variant="h4" sx={{ display: 'flex', flexDirection: "flex-start"}}>
-                Latest News
-            </Typography>
             {newsData.map(({ url, image, title, description, author }: NewsInterface, i: number) => (
                 <Card style={{ width: '40vw' }} sx={{ display: 'flex', flexDirection: "row" }} key={i}>
                     <CardActionArea href={url} sx={{ display: 'flex', flexDirection: "row" }}>
