@@ -4,13 +4,16 @@ import { BrowserRouter, Routes, Route, PathRouteProps, LayoutRouteProps, IndexRo
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Error from "./Error/Error";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import tokenizer from "./tokenizer";
 import Forgot from "./Forgot/Forgot";
 import About from "./AboutUs/AboutUs";
 import Blog from "./Blog/Blog";
+import axios from "axios";
 
 var pathList: string[] = []
+const basePath = "https://technophilesapi.up.railway.app";
+
 const NewRoute = (props: PathRouteProps | LayoutRouteProps | IndexRouteProps) => {
   console.log(pathList)
   if ((props as PathRouteProps).path === "*") {
@@ -40,6 +43,35 @@ interface UserInterface {
   encryption: string;
 }
 
+interface BlogInterface {
+  _id: string;
+  name: string;
+  description?: string;
+  content: string;
+}
+
+interface NGOInterface {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: {
+    line_1: string;
+    line_2: string;
+    city_village: string;
+    state: string;
+    pin_code: number;
+  };
+  timings: {
+    start: string;
+    close: string;
+    days: string;
+  };
+  location: {
+    lat: number;
+    long: number;
+  }
+}
 
 function App() {
   const [user, setUser] = useState<UserInterface>(JSON.parse(localStorage.getItem("globalUser")!) as UserInterface || {
@@ -67,6 +99,25 @@ function App() {
     console.log(JSON.parse(localStorage.getItem("globalUser") as string))
   }
 
+  const [blogs, setBlogs] = useState<BlogInterface[]>([]);
+
+  const [ngoList, setNgoList] = useState<NGOInterface[]>([]);
+  const getAllNGO = async () => {
+    console.log("This is running")
+    var a = await axios.get(basePath+"/ngo/findAll").then(res=> res.data)
+    setNgoList(a.col)
+    return a
+  }
+  useCallback(async () => {
+    var res = await getAllNGO()
+    console.log(res)
+    setNgoList(res.col)
+  }, [])
+  useEffect(() => {
+    
+    localStorage.setItem("globalNgoList", JSON.stringify(ngoList))
+  }, [])
+
   return (
     <BrowserRouter>
       <Routes>
@@ -93,7 +144,7 @@ function App() {
           <Forgot />
         } />
         <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
-        <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya" />} />
+        <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya__blog__2" />} />
         <Route path={"/404"} element={<Error />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
