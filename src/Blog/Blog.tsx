@@ -4,7 +4,7 @@ import NavBar from "../Nav/Nav";
 // @ts-ignore
 import showdown from "showdown";
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 
 const basePath = "https://technophilesapi.up.railway.app"
@@ -40,29 +40,29 @@ interface BlogInterface {
 }
 
 export default function Blog({user, setUser, id}: Props) {
-    const [blog, setBlog] = useState<BlogInterface>({
-        _id: "", name: "", description: "", content: ""
-    })
-    const fetchBlogData = async () => await axios.get(basePath+"/blog/findByID", {
-        params: {
-            id: id
-        }
-    })
-    .then(res => res.data)
-    .then(setBlog)
-    .catch(console.log)
-    useCallback(async () => await fetchBlogData(), [])
-    const convertor = new showdown.Converter()
-    const html = convertor.makeHtml(blog.content)
-    console.log(html)
+    const [blog, setBlog] = useState<BlogInterface>()
+    const [blogContent, setBlogContent] = useState<string>("")
+    useEffect(() => {
+        axios.get(basePath+"/blog/findByID", {
+            params: {
+                id: id
+            }
+        })
+        .then(res => {
+            var blog = res.data.col
+            setBlog(blog as BlogInterface)
+            const convertor = new showdown.Converter()
+            const html = convertor.makeHtml(blog!.content)
+            setBlogContent(html)
+        })
+        .catch(e => console.log(e))
+    }, [])
     return (
-        <>
-            <NavBar isHome={false} user={user} setUser={setUser}/>
-            <div className="markdown-body">
-                {html}
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum odit laudantium aut nulla fugiat obcaecati ipsa architecto ut magnam assumenda libero suscipit ipsum, similique iure. Ipsum, aperiam? In, delectus debitis.
+        <div>
+            <NavBar isHome={false} user={user} setUser={setUser} />
+            <div className="Container markdown-body" dangerouslySetInnerHTML={{__html: blogContent}}>
             </div>
             <Footer />
-        </>
+        </div>
     )
 }

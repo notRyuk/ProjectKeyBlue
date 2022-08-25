@@ -28,7 +28,7 @@ interface Props {
 export default function About({user, setUser}: Props) {
     return (
         <div>
-            <NavBar isHome={false} user={user} setUser={setUser}/>
+            <NavBar isHome={false} user={user} setUser={setUser} />
             <div className="markdown-body Container App-Logo">
                 <h1 id="aboutus">About us</h1>
                 <p>
