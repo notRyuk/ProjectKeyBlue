@@ -10,6 +10,7 @@ import Forgot from "./Forgot/Forgot";
 import About from "./AboutUs/AboutUs";
 import Blog from "./Blog/Blog";
 import axios from "axios";
+import News from "./News/News";
 
 var pathList: string[] = []
 const basePath = "https://technophilesapi.up.railway.app";
