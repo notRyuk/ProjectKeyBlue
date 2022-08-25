@@ -263,7 +263,7 @@ export default function NavBar({ window, navItems, isHome, setUser, user }: Prop
                                 width: drawerWidth,
                             },
                             "& .css-11b3ww9-MuiPaper-root-MuiAppBar-root": {
-                                backgroundColor: "transparent"
+                                backgroundColor: "#fff"
                             }
                         }}
                         className="NavMobile"

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import tokenizer from "./tokenizer";
 import Forgot from "./Forgot/Forgot";
 import About from "./AboutUs/AboutUs";
+import Blog from "./Blog/Blog";
 
 var pathList: string[] = []
 const NewRoute = (props: PathRouteProps | LayoutRouteProps | IndexRouteProps) => {
@@ -39,7 +40,6 @@ interface UserInterface {
   encryption: string;
 }
 
-//https://stackoverflow.com/questions/70724269/react-router-v6-route-composition-is-it-possible-to-render-a-custom-route
 
 function App() {
   const [user, setUser] = useState<UserInterface>(JSON.parse(localStorage.getItem("globalUser")!) as UserInterface || {
@@ -93,6 +93,7 @@ function App() {
           <Forgot />
         } />
         <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
+        <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya" />} />
         <Route path={"/404"} element={<Error />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>

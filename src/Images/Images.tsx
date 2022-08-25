@@ -17,13 +17,14 @@ export default function ImageView({ imageList }: Props) {
       animation="slide"
       duration={800}
       sx={{
-        minWidth: "90vw"
+        minWidth: "100vw"
       }}
       indicators={false}
+      cycleNavigation={false}
     >
       {
         tokenizer.shuffle(imageList).map(({url, name}, i) => (
-          <img src={url} alt={name} key={i} width="100%" height="200vw" className="Image"/>
+          <img src={url} alt={name} key={i} width="100%" height="400vw" className="Image"/>
         ))
       }
     </Carousel>
