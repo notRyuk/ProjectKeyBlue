@@ -6,7 +6,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Carousel from 'react-material-ui-carousel'
 
 import Logo from '../logo.svg'
 
@@ -42,7 +41,7 @@ const returnNewsMap = async () => {
                 pageSize: '1',
                 from: from,
                 to: to,
-                apiKey: '21ff6401c9244015a4c7eb336fad349d'
+                apiKey: '73a68ca2e62a41b8864d1014eaf28f8b'
             }
         }).then(res => res.data)
         if (!news.map(e => e.url).includes(data.articles[0].url)) {
