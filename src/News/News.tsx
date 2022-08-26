@@ -41,7 +41,7 @@ const returnNewsMap = async () => {
                 pageSize: '1',
                 from: from,
                 to: to,
-                apiKey: '73a68ca2e62a41b8864d1014eaf28f8b'
+                apiKey: '06ded3314a5348c7b9545d553f0aca55'
             }
         }).then(res => res.data)
         if (!news.map(e => e.url).includes(data.articles[0].url)) {
@@ -76,7 +76,7 @@ export default function News() {
         <>
             {newsData.map(({ url, image, title, description, author }: NewsInterface, i: number) => (
                 <Card style={{ width: '40vw' }} sx={{ display: 'flex', flexDirection: "row" }} key={i}>
-                    <CardActionArea href={url} sx={{ display: 'flex', flexDirection: "row" }}>
+                    <CardActionArea href={url} target="_blank" sx={{ display: 'flex', flexDirection: "row" }}>
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             <CardContent sx={{ textOverflow: "ellipsis" }}>
                                 <Typography component="div" variant="h5" overflow="hidden">
