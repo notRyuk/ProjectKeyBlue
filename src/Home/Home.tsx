@@ -105,12 +105,12 @@ export default function Home({user, setUser}: Props) {
                     <li><strong>Web pages and activities</strong> – web sites, online games, online quizzes</li>
                     <li><strong>Social media and telecommunications</strong> – SMS, early warning.</li>
                     </ul>
-                    {/* <h1 style={{
-                        textAlign: "center"
-                    }}>Stronger As One.</h1> */}
                 </div>
                 <Divider />
             </header>
+            <h1 style={{ textAlign:'center', paddingBottom:'2rem', color:'#1976d2' }}>
+                Latest News
+            </h1>
             <Grid sx={{ flexGrow: 1 }} container spacing={'2rem'}>
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" spacing={'2rem'}>
