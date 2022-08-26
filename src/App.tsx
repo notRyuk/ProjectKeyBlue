@@ -11,6 +11,8 @@ import About from "./AboutUs/AboutUs";
 import Blog from "./Blog/Blog";
 import axios from "axios";
 import News from "./News/News";
+import Emergency from "./Emergency/Emergency";
+import Line from "./Line/Line";
 
 var pathList: string[] = []
 const basePath = "https://technophilesapi.up.railway.app";
@@ -147,7 +149,7 @@ function App() {
         <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
         <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya__blog__2" />} />
         <Route path={"/404"} element={<Error />} />
-        <Route path={"/test"} element={<News />} />
+        <Route path={"/test"} element={<Emergency />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
     </BrowserRouter>
