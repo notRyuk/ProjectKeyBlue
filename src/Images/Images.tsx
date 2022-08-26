@@ -17,7 +17,7 @@ export default function ImageView({ imageList }: Props) {
       animation="slide"
       duration={800}
       sx={{
-        minWidth: "100vw"
+        minWidth: "60vw"
       }}
       indicators={false}
       cycleNavigation={false}
