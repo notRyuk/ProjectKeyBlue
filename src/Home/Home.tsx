@@ -2,10 +2,12 @@ import Footer from "../Footer/Footer";
 import NavBar from "../Nav/Nav";
 import "./Home.css";
 import Images from "../Images/Images";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 import { imageList } from "./images"
 import "github-markdown-css/github-markdown-light.css"
 import News from "../News/News";
+import Emergency from "../Emergency/Emergency";
+import Line from "../Line/Line";
 
 interface MiniBlog {
     _id: string;
@@ -35,12 +37,21 @@ export default function Home({user, setUser}: Props) {
         <div className="App">
             <NavBar isHome user={user} setUser={setUser}/>
             <header className="App-header">
-                <Images imageList={imageList} />
+                <div className="ImageContainer">
+                    <Images imageList={imageList} />
+                    <Grid sx={{ flexGrow: 1 }} container spacing={'2rem'} className="ImageGrid">
+                        <Grid item xs={12}>
+                            <Grid container justifyContent="center" spacing={'2rem'}>
+                                <Emergency />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </div>
                 <Divider />
                 <div className="markdown-body">
-                    <h1 id="-assisting-in-disaster-prevention-and-mitigation-"><strong>Assisting in Disaster Prevention and Mitigation</strong></h1>
-                    <h2 id="-to-protect-our-communities-"><strong>To protect our communities</strong></h2>
-                    <h2 id="_-because-we-are-stronger-as-one-_"><em><strong>because we are stronger as one.</strong></em></h2>
+                    <h1 id="-assisting-in-disaster-prevention-and-mitigation-" style={{color: '#1976d2' }}><strong>Assisting in Disaster Prevention and Mitigation</strong></h1>
+                    <h2 id="-to-protect-our-communities-" style={{ color: '#1976d2' }}><strong>To protect our communities as a whole</strong></h2>
+                    <h2 id="_-because-we-are-stronger-as-one-_" style={{ color: '#1976d2' }}><em><strong>because we are stronger as one.</strong></em></h2>
                     <h3 id="to-achieve-this-goal-information-campaigns-and-educational-efforts-should-be-developed-and-their-effectiveness-be-evaluated-and-where-possible-continually-improved">To achieve this goal, information campaigns and educational efforts should be developed and their effectiveness be evaluated and, where possible, continually improved</h3>
                     <ul>
                     <li><p><strong>Household survival plans (HSPs)</strong> should provide basic information on:</p>
@@ -61,7 +72,7 @@ export default function Home({user, setUser}: Props) {
                     </li>
                     </ul>
                     <hr />
-                    <h2 id="-participatory-learning-"><strong>Participatory Learning</strong></h2>
+                    <h2 id="-participatory-learning-" style={{color: '#1976d2' }}><strong>Participatory Learning</strong></h2>
                     <p>People are especially motivated by approaches in which they themselves participate in a solution, and especially when they believe it is their own idea.</p>
                     <blockquote>
                     <p>The focus of participatory learning is to engage people in discovery and problem solving for disaster risk reduction. At the heart of all of these activities is the community’s own experience of empowerment.</p>
@@ -94,13 +105,20 @@ export default function Home({user, setUser}: Props) {
                     <li><strong>Web pages and activities</strong> – web sites, online games, online quizzes</li>
                     <li><strong>Social media and telecommunications</strong> – SMS, early warning.</li>
                     </ul>
-                    <h1 style={{
+                    {/* <h1 style={{
                         textAlign: "center"
-                    }}>Stronger As One.</h1>
+                    }}>Stronger As One.</h1> */}
                 </div>
                 <Divider />
             </header>
-            <News />
+            <Grid sx={{ flexGrow: 1 }} container spacing={'2rem'}>
+                <Grid item xs={12}>
+                    <Grid container justifyContent="center" spacing={'2rem'}>
+                        <News />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Line />
             <Footer />
         </div>
     )

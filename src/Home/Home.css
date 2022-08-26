@@ -45,3 +45,13 @@
 .markdown-body {
     text-align: left;
 }
+
+.ImageContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+}
+
+.ImageGrid {
+    padding-top: 7rem;
+}
