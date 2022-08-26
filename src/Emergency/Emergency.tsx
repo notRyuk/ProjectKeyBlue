@@ -68,7 +68,7 @@ const card = (
                     <TableHead>
                         <TableRow>
                             <StyledTableCell sx={{ fontSize: '1.1rem' }}><strong>Department</strong></StyledTableCell>
-                            <StyledTableCell sx={{ fontSize: '1.1rem' }} align="right"><strong>Number</strong></StyledTableCell>
+                            <StyledTableCell sx={{ fontSize: '1.1rem' }} align="right"><strong>Phone Number</strong></StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
