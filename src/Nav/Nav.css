@@ -1,5 +1,5 @@
 .LogoIcon {
-    height: 5vmin;
+    height: 15vmin;
     position: relative;
     border-radius: 50%;
     transform: scale(0.8) !important;
@@ -33,4 +33,9 @@
 .NavButton:hover {
     color: "primary.dark";
     background-color: white;
+}
+
+a.LogoContainer {
+    font-size: 2.5rem;
+    font-weight: bold;
 }
