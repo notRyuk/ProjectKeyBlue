@@ -26,4 +26,3 @@ test*.*
 
 *.zip
 /src/*.md
-/src/blogs
