@@ -13,6 +13,7 @@ import axios from "axios";
 import News from "./News/News";
 import Emergency from "./Emergency/Emergency";
 import Line from "./Line/Line";
+import Blogs from "./Blogs/Blogs";
 
 var pathList: string[] = []
 const basePath = "https://technophilesapi.up.railway.app";
@@ -121,6 +122,8 @@ function App() {
     localStorage.setItem("globalNgoList", JSON.stringify(ngoList))
   }, [])
 
+  const [currentBlog, setCurrentBlog] = useState<string>("ParidhiArya__blog__2")
+
   return (
     <BrowserRouter>
       <Routes>
@@ -147,9 +150,9 @@ function App() {
           <Forgot />
         } />
         <Route path="/about-us" element={<About user={user} setUser={handleSetUser} />} />
-        <Route path={"/test-blog"} element={<Blog user={user} setUser={handleSetUser} id="ParidhiArya__blog__2" />} />
+        <Route path={"/blog"} element={<Blog user={user} setUser={handleSetUser} id={currentBlog} />} />
         <Route path={"/404"} element={<Error />} />
-        <Route path={"/test"} element={<Emergency />} />
+        <Route path={"/blogs"} element={<Blogs user={user} setUser={setUser} currentBlog={currentBlog} setCurrentBlog={setCurrentBlog} />} />
         <Route path={"*"} element={<Navigate to={"/404"} />} />
       </Routes>
     </BrowserRouter>
