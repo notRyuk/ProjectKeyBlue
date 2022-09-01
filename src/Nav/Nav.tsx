@@ -62,7 +62,7 @@ function HideOnScroll(props: HideOnScrollProps) {
 const drawerWidth = 240
 var navItemList: NavItem[] = [
     { value: "Home", link: "/", Icon: HomeIcon },
-    { value: "Blogs", link: "_blank", Icon: TextSnippetIcon },
+    { value: "Blogs", link: "/blogs", Icon: TextSnippetIcon },
     { value: "NGO", link: "_blank", Icon: ApartmentIcon },
     { value: "Contact", link: "_blank", Icon: ContactSupportIcon }
 ]
